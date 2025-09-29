@@ -455,7 +455,7 @@
     }
 
     .envelope.open .card-inside {
-      transform: translateY(0) rotateX(0deg) scale(1);
+      transform: translateY(0) scale(1);
     }
 
     /* Paper texture effect */
@@ -760,13 +760,14 @@
       <div class="envelope-seal">🍃</div>
       
       <div class="card-inside">
-        <img class="cat-photo" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=200&fit=crop&crop=face" alt="Cute Cat">
-        <h4 style="color: var(--matcha-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">Happy 17th Birthday!</h4>
-        <div class="card-message" style="font-size: 0.85rem;">
-          <p>🐱 Dear TataDadoow,</p>
-          <p style="margin: 0.5rem 0;">Like matcha, you bring warmth and sweetness to everyone around you. May your 17th year be filled with purr-fect moments! 🍃</p>
-          <p style="font-weight: 600; color: var(--cat-orange); margin-top: 0.8rem;">With love & whiskers 💚</p>
+        <div class="card-cat">🐱</div>
+        <div class="card-title">Happy 17th Birthday<br>TataDadoow!</div>
+        <div class="card-message">
+          Semoga hari spesialmu penuh<br>
+          kebahagiaan seperti kucing<br>
+          yang minum matcha latte! 🍃
         </div>
+        <div class="card-from">💚</div>
       </div>
     </div>
     <button class="open-btn" onclick="openEnvelope()">✉️ Open Envelope</button>
@@ -787,17 +788,17 @@
 
     <div class="note-card">
       <div class="note-title"><span class="cat-emoji">🍵</span>Matcha Sweet</div>
-      <div class="note-text"> Semoga di usia 17 ini, semua impian Tata tercapai dan selalu diberkahi kesehatan. Stay cute like always! 💚</div>
+      <div class="note-text">Seperti matcha yang pahit manis, hidup Tata juga penuh warna! Semoga di usia 17 ini, semua impian Tata tercapai dan selalu diberkahi kesehatan. Stay cute like always! 💚</div>
     </div>
 
     <div class="note-card">
       <div class="note-title"><span class="cat-emoji">🎂</span>Seventeen & Fabulous</div>
-      <div class="note-text">Happy sweet seventeen, Tata! Semoga makin dewasa tapi tetap playful Jngan lupa makan dan jaga kesehatan ya! 🥰</div>
+      <div class="note-text">Happy sweet seventeen, Tata! Semoga makin dewasa tapi tetap playful seperti anak kucing. Jangan lupa makan cake yang enak dan jaga kesehatan ya! Love you! 🥰</div>
     </div>
 
     <div class="note-card">
       <div class="note-title"><span class="cat-emoji">✨</span>Wish Come True</div>
-      <div class="note-text">Dear TataDadoow, di hari spesial ini semoga semua yang Tata inginkan terwujud! semoga Tata selalu berhasil dalam segala hal! 🌟</div>
+      <div class="note-text">Dear TataDadoow, di hari spesial ini semoga semua yang Tata inginkan terwujud! Seperti kucing yang selalu landing dengan sempurna, semoga Tata selalu berhasil dalam segala hal! 🌟</div>
     </div>
   </div>
 </div>
@@ -833,7 +834,7 @@
       
       // Show wish message
       setTimeout(() => {
-        alert("🎂✨ Perfect! Your wish has been sent to the universe, TataDadoow! May all your dreams come true! 🍃💚");
+        alert("🎂✨ Perfect! Your wish has been sent to the universe, TataDadoow! May all your matcha dreams come true! 🍃💚");
       }, 1200);
       
       isCandleBlown = true;

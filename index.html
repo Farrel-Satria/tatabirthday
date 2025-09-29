@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TataDadoow's Sweet 17th 🍃</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 50%, #ffd3a5 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Matcha theme colors */
+    :root {
+      --matcha-primary: #7cb342;
+      --matcha-secondary: #aed581;
+      --matcha-light: #dcedc1;
+      --matcha-cream: #f1f8e9;
+      --cat-orange: #ff8a65;
+      --soft-pink: #ffb3d9;
+    }
+
+    /* Homescreen */
+    .homescreen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    .homescreen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ffffff30"/><circle cx="80" cy="30" r="1.5" fill="%23ffffff40"/><circle cx="40" cy="70" r="1" fill="%23ffffff50"/><circle cx="90" cy="80" r="2" fill="%23ffffff30"/></svg>');
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) }
+      50% { transform: translateY(-10px) }
+    }
+
+    .title-section {
+      text-align: center;
+      margin-bottom: 3rem;
+      z-index: 2;
+    }
+
+    .title-section h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--matcha-primary), var(--cat-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--matcha-primary);
+      font-weight: 500;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      z-index: 2;
+    }
+
+    .app-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+
+    .app-icon:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      border-color: var(--matcha-secondary);
+    }
+
+    .app-label {
+      text-align: center;
+      margin-top: 0.8rem;
+      font-weight: 600;
+      color: var(--matcha-primary);
+      font-size: 0.95rem;
+    }
+
+    /* Page transitions */
+    .page {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, var(--matcha-cream), #ffffff);
+      z-index: 100;
+      transform: translateX(100%);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+
+    .page.active {
+      transform: translateX(0);
+    }
+
+    .page-header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--matcha-light);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    .back-btn {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--matcha-primary);
+      transition: transform 0.2s;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--matcha-light);
+    }
+
+    .back-btn:hover {
+      transform: scale(1.1);
+      background: var(--matcha-secondary);
+    }
+
+    .page-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--matcha-primary);
+    }
+
+    /* Calendar styling */
+    .calendar-container {
+      max-width: 400px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .calendar {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      border: 2px solid var(--matcha-light);
+    }
+
+    .calendar-header {
+      background: var(--matcha-primary);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .calendar-grid {
+      padding: 1rem;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      border-radius: 12px;
+      transition: all 0.2s;
+      margin: 0.2rem;
+    }
+
+    .calendar-day.highlight {
+      background: #ff4757;
+      color: white;
+      font-weight: 700;
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1.1) }
+      50% { transform: scale(1.2) }
+    }
+
+    /* Cake styling */
+    .cake-container {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .cake {
+      position: relative;
+      margin: 3rem auto;
+      width: 300px;
+      height: 200px;
+    }
+
+    .cake-base {
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(45deg, var(--matcha-secondary), var(--matcha-primary));
+      border-radius: 10px;
+      position: absolute;
+      bottom: 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .cake-layer-2 {
+      width: 80%;
+      height: 60px;
+      background: linear-gradient(45deg, var(--matcha-light), var(--matcha-secondary));
+      border-radius: 8px;
+      position: absolute;
+      bottom: 80px;
+      left: 10%;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .cake-layer-3 {
+      width: 60%;
+      height: 40px;
+      background: linear-gradient(45deg, #ffffff, var(--matcha-light));
+      border-radius: 6px;
+      position: absolute;
+      bottom: 140px;
+      left: 20%;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    }
+
+    .candle {
+      width: 12px;
+      height: 60px;
+      background: linear-gradient(to bottom, #ffd700, #ffa500);
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 6px 6px 2px 2px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .flame {
+      width: 20px;
+      height: 35px;
+      background: radial-gradient(circle, #ff6b35, #ff8e53, #ffa726);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      position: absolute;
+      top: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: flicker 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { transform: translateX(-50%) scale(1) rotate(-1deg) }
+      100% { transform: translateX(-50%) scale(1.1) rotate(1deg) }
+    }
+
+    .blow-btn {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      background: linear-gradient(45deg, var(--cat-orange), #ff6b35);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 20px rgba(255, 138, 101, 0.4);
+    }
+
+    .blow-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 138, 101, 0.6);
+    }
+
+    /* Envelope styling */
+    .envelope-container {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .envelope {
+      margin: 2rem auto;
+      width: min(380px, 90vw);
+      height: min(260px, 65vw);
+      position: relative;
+      perspective: 1200px;
+    }
+
+    .envelope-body {
+      position: absolute;
+      top: min(40px, 10vw);
+      left: 0;
+      width: 100%;
+      height: calc(100% - min(40px, 10vw));
+      background: linear-gradient(145deg, #ffb3d9, #ff9ec7);
+      border-radius: 0 0 8px 8px;
+      box-shadow: 
+        0 0 0 2px #ff9ec7,
+        0 8px 25px rgba(0,0,0,0.2),
+        inset 0 -3px 8px rgba(0,0,0,0.1);
+    }
+
+    .envelope-flap-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: min(150px, 40vw);
+      background: linear-gradient(135deg, #ff9ec7, #ffb3d9);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+      z-index: 1;
+    }
+
+    .envelope-flap-front {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: min(150px, 40vw);
+      background: linear-gradient(135deg, #ffb3d9, #ffc4dd);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: 50% 0%;
+      transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 5;
+      box-shadow: 
+        0 0 0 2px #ff9ec7,
+        0 5px 20px rgba(0,0,0,0.25);
+    }
+
+    /* Envelope seal/sticker */
+    .envelope-seal {
+      position: absolute;
+      top: min(80px, 20vw);
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(40px, 10vw);
+      height: min(40px, 10vw);
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      border-radius: 50%;
+      z-index: 6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: min(1.2rem, 4vw);
+      font-weight: bold;
+      color: #ff6b35;
+      border: 2px solid #ffed4e;
+      transition: all 0.6s ease;
+    }
+
+    /* Envelope details */
+    .envelope-address {
+      position: absolute;
+      top: min(120px, 30vw);
+      left: min(30px, 7vw);
+      right: min(30px, 7vw);
+      color: #8b5a5a;
+      font-size: min(0.9rem, 3.5vw);
+      font-weight: 500;
+      z-index: 2;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .envelope-stamp {
+      position: absolute;
+      top: min(60px, 15vw);
+      right: min(20px, 5vw);
+      width: min(50px, 12vw);
+      height: min(35px, 8vw);
+      background: linear-gradient(45deg, #7cb342, #aed581);
+      border: 2px solid #ffffff;
+      border-radius: 4px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: min(1.2rem, 4vw);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .card-inside {
+      position: absolute;
+      top: min(70px, 18vw);
+      left: min(25px, 6vw);
+      width: calc(100% - min(50px, 12vw));
+      height: calc(100% - min(90px, 22vw));
+      background: linear-gradient(145deg, #ffffff, #fafafa);
+      border-radius: 8px;
+      padding: min(1.5rem, 4vw);
+      text-align: center;
+      transform: translateY(150%) rotateX(-15deg) scale(0.95);
+      transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 3;
+      box-shadow: 
+        0 8px 25px rgba(0,0,0,0.2),
+        0 0 0 1px rgba(0,0,0,0.05);
+      border: 1px solid #e0e0e0;
+    }
+
+    .envelope.open .envelope-flap-front {
+      transform: rotateX(-185deg) translateZ(10px);
+    }
+
+    .envelope.open .envelope-seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(0) rotate(360deg);
+    }
+
+    .envelope.open .card-inside {
+      transform: translateY(0) rotateX(0deg) scale(1);
+    }
+
+    /* Paper texture effect */
+    .envelope-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 2px,
+          rgba(255,255,255,0.1) 2px,
+          rgba(255,255,255,0.1) 4px
+        );
+      border-radius: 0 0 8px 8px;
+    }
+
+    .cat-photo {
+      width: 100%;
+      height: min(120px, 25vw);
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: min(1rem, 3vw);
+      border: 2px solid var(--matcha-light);
+    }
+
+    .card-message {
+      font-size: min(0.85rem, 3.2vw);
+      color: var(--matcha-primary);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .open-btn {
+      padding: min(1rem, 3vw) min(2rem, 6vw);
+      font-size: min(1.1rem, 4vw);
+      font-weight: 600;
+      background: linear-gradient(45deg, var(--matcha-primary), var(--matcha-secondary));
+      border: none;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 20px rgba(124, 179, 66, 0.4);
+      margin-top: min(1rem, 3vw);
+    }
+
+    .open-btn:hover, .open-btn:active {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(124, 179, 66, 0.6);
+    }
+
+    /* Touch-friendly buttons for mobile */
+    @media (pointer: coarse) {
+      .open-btn {
+        min-height: 48px;
+        min-width: 120px;
+      }
+    }
+
+    /* Notes styling */
+    .notes-container {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .note-card {
+      background: linear-gradient(135deg, #fff8e1, #f3e5f5);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-left: 5px solid var(--matcha-primary);
+      transition: transform 0.2s;
+    }
+
+    .note-card:hover {
+      transform: translateX(5px);
+    }
+
+    .note-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--matcha-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .note-text {
+      color: #555;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .cat-emoji {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .homescreen h1 { font-size: 2.2rem; }
+      .apps-grid { gap: 1.5rem; }
+      .app-icon { width: 80px; height: 80px; font-size: 2rem; }
+      .envelope { width: min(320px, 85vw); height: min(220px, 55vw); }
+      .cake { width: min(250px, 70vw); height: min(160px, 45vw); }
+      .page-header { padding: 1rem; }
+      .page-title { font-size: 1.2rem; }
+      
+      .envelope-container {
+        padding: 1.5rem 0.5rem;
+      }
+      
+      .card-inside {
+        padding: min(1rem, 3vw);
+      }
+      
+      .envelope-address {
+        font-size: min(0.8rem, 3vw);
+      }
+      
+      /* Make touch targets larger */
+      .back-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .homescreen h1 { font-size: 1.8rem; }
+      .subtitle { font-size: 1rem; }
+      .apps-grid { gap: 1rem; }
+      .app-icon { width: 70px; height: 70px; font-size: 1.8rem; }
+      
+      .envelope {
+        width: min(280px, 90vw);
+        height: min(190px, 60vw);
+      }
+      
+      .envelope-address {
+        top: min(100px, 25vw);
+        font-size: min(0.75rem, 2.8vw);
+      }
+      
+      .envelope-seal {
+        width: min(35px, 9vw);
+        height: min(35px, 9vw);
+        font-size: min(1rem, 3.5vw);
+      }
+      
+      .envelope-stamp {
+        width: min(40px, 10vw);
+        height: min(28px, 7vw);
+        font-size: min(1rem, 3.5vw);
+      }
+    }
+
+    .blown {
+      animation: smokeOut 1s ease-out;
+      opacity: 0;
+    }
+
+    @keyframes smokeOut {
+      0% { opacity: 1; transform: translateX(-50%) scale(1); }
+      100% { opacity: 0; transform: translateX(-50%) scale(2) translateY(-20px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Homescreen -->
+<div class="homescreen">
+  <div class="title-section">
+    <h1>🐱 TataDadoow 🍃</h1>
+    <p class="subtitle">Sweet Seventeen & Matcha Dreams</p>
+  </div>
+  
+  <div class="apps-grid">
+    <div onclick="openPage('calendar')">
+      <div class="app-icon">📅</div>
+      <div class="app-label">Calendar</div>
+    </div>
+    <div onclick="openPage('cake')">
+      <div class="app-icon">🍰</div>
+      <div class="app-label">Matcha Cake</div>
+    </div>
+    <div onclick="openPage('envelope')">
+      <div class="app-icon">💌</div>
+      <div class="app-label">Cat Card</div>
+    </div>
+    <div onclick="openPage('notes')">
+      <div class="app-icon">🐾</div>
+      <div class="app-label">Sweet Notes</div>
+    </div>
+  </div>
+</div>
+
+<!-- Calendar Page -->
+<div class="page" id="calendar-page">
+  <div class="page-header">
+    <div class="back-btn" onclick="closePage('calendar')">←</div>
+    <div class="page-title">📅 Special Day</div>
+  </div>
+  <div class="calendar-container">
+    <div class="calendar">
+      <div class="calendar-header">September 2025</div>
+      <div class="calendar-grid">
+        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.2rem;">
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">S</div>
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">M</div>
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">T</div>
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">W</div>
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">T</div>
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">F</div>
+          <div style="text-align: center; font-weight: 600; color: #666; padding: 0.5rem;">S</div>
+          
+          <div class="calendar-day" style="color: #ccc;">31</div>
+          <div class="calendar-day">1</div>
+          <div class="calendar-day">2</div>
+          <div class="calendar-day">3</div>
+          <div class="calendar-day">4</div>
+          <div class="calendar-day">5</div>
+          <div class="calendar-day">6</div>
+          <div class="calendar-day">7</div>
+          <div class="calendar-day">8</div>
+          <div class="calendar-day">9</div>
+          <div class="calendar-day">10</div>
+          <div class="calendar-day">11</div>
+          <div class="calendar-day">12</div>
+          <div class="calendar-day">13</div>
+          <div class="calendar-day">14</div>
+          <div class="calendar-day">15</div>
+          <div class="calendar-day">16</div>
+          <div class="calendar-day">17</div>
+          <div class="calendar-day">18</div>
+          <div class="calendar-day">19</div>
+          <div class="calendar-day">20</div>
+          <div class="calendar-day">21</div>
+          <div class="calendar-day">22</div>
+          <div class="calendar-day">23</div>
+          <div class="calendar-day">24</div>
+          <div class="calendar-day">25</div>
+          <div class="calendar-day">26</div>
+          <div class="calendar-day">27</div>
+          <div class="calendar-day">28</div>
+          <div class="calendar-day highlight">29</div>
+          <div class="calendar-day">30</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 2rem;">
+      <p style="font-size: 1.2rem; color: var(--matcha-primary); font-weight: 600;">🎉 Today is TataDadoow's Special Day! 🎂</p>
+    </div>
+  </div>
+</div>
+
+<!-- Cake Page -->
+<div class="page" id="cake-page">
+  <div class="page-header">
+    <div class="back-btn" onclick="closePage('cake')">←</div>
+    <div class="page-title">🍰 Matcha Birthday Cake</div>
+  </div>
+  <div class="cake-container">
+    <div class="cake">
+      <div class="cake-base"></div>
+      <div class="cake-layer-2"></div>
+      <div class="cake-layer-3"></div>
+      <div class="candle">
+        <div class="flame" id="flame"></div>
+      </div>
+    </div>
+    <p style="font-size: 1.2rem; color: var(--matcha-primary); margin-bottom: 1rem;">🎵 Make a wish, sweet Tata! 🎵</p>
+    <button class="blow-btn" onclick="blowCandle()">💨 Blow the Candle</button>
+  </div>
+</div>
+
+<!-- Envelope Page -->
+<div class="page" id="envelope-page">
+  <div class="page-header">
+    <div class="back-btn" onclick="closePage('envelope')">←</div>
+    <div class="page-title">💌 Special Cat Card</div>
+  </div>
+  <div class="envelope-container">
+    <div class="envelope" id="envelope">
+      <div class="envelope-body"></div>
+      <div class="envelope-flap-back"></div>
+      
+      <!-- Envelope details -->
+      <div class="envelope-stamp">🐱</div>
+      <div class="envelope-address">
+        <div style="font-weight: 600;">To: TataDadoow</div>
+        <div style="margin-top: 4px;">Matcha Lover Street</div>
+        <div>Cat Kingdom 🏰</div>
+      </div>
+      
+      <div class="envelope-flap-front"></div>
+      <div class="envelope-seal">🍃</div>
+      
+      <div class="card-inside">
+        <img class="cat-photo" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=200&fit=crop&crop=face" alt="Cute Cat">
+        <h4 style="color: var(--matcha-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">Happy 17th Birthday!</h4>
+        <div class="card-message" style="font-size: 0.85rem;">
+          <p>🐱 Dear TataDadoow,</p>
+          <p style="margin: 0.5rem 0;">Like matcha, you bring warmth and sweetness to everyone around you. May your 17th year be filled with purr-fect moments! 🍃</p>
+          <p style="font-weight: 600; color: var(--cat-orange); margin-top: 0.8rem;">With love & whiskers 💚</p>
+        </div>
+      </div>
+    </div>
+    <button class="open-btn" onclick="openEnvelope()">✉️ Open Envelope</button>
+  </div>
+</div>
+
+<!-- Notes Page -->
+<div class="page" id="notes-page">
+  <div class="page-header">
+    <div class="back-btn" onclick="closePage('notes')">←</div>
+    <div class="page-title">🐾 Sweet Messages</div>
+  </div>
+  <div class="notes-container">
+    <div class="note-card">
+      <div class="note-title"><span class="cat-emoji">🐱</span>Meow-velous You!</div>
+      <div class="note-text">Tata, kamu itu seperti kucing yang selalu bikin hari-hari jadi lebih ceria! Selamat ulang tahun yang ke-17, semoga selalu bahagia seperti kucing yang lagi minum susu matcha! 🍃</div>
+    </div>
+
+    <div class="note-card">
+      <div class="note-title"><span class="cat-emoji">🍵</span>Matcha Sweet</div>
+      <div class="note-text"> Semoga di usia 17 ini, semua impian Tata tercapai dan selalu diberkahi kesehatan. Stay cute like always! 💚</div>
+    </div>
+
+    <div class="note-card">
+      <div class="note-title"><span class="cat-emoji">🎂</span>Seventeen & Fabulous</div>
+      <div class="note-text">Happy sweet seventeen, Tata! Semoga makin dewasa tapi tetap playful Jngan lupa makan dan jaga kesehatan ya! 🥰</div>
+    </div>
+
+    <div class="note-card">
+      <div class="note-title"><span class="cat-emoji">✨</span>Wish Come True</div>
+      <div class="note-text">Dear TataDadoow, di hari spesial ini semoga semua yang Tata inginkan terwujud! semoga Tata selalu berhasil dalam segala hal! 🌟</div>
+    </div>
+  </div>
+</div>
+
+<!-- Audio -->
+<audio id="birthday-music" loop>
+  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthdaySong.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const music = document.getElementById('birthday-music');
+  let isEnvelopeOpened = false;
+  let isCandleBlown = false;
+
+  function openPage(pageName) {
+    document.getElementById(pageName + '-page').classList.add('active');
+    if (music.paused) {
+      music.play().catch(e => console.log('Audio play failed:', e));
+    }
+  }
+
+  function closePage(pageName) {
+    document.getElementById(pageName + '-page').classList.remove('active');
+  }
+
+  function blowCandle() {
+    const flame = document.getElementById('flame');
+    if (!isCandleBlown) {
+      flame.classList.add('blown');
+      setTimeout(() => {
+        flame.style.display = 'none';
+      }, 1000);
+      
+      // Show wish message
+      setTimeout(() => {
+        alert("🎂✨ Perfect! Your wish has been sent to the universe, TataDadoow! May all your dreams come true! 🍃💚");
+      }, 1200);
+      
+      isCandleBlown = true;
+    }
+  }
+
+  function openEnvelope() {
+    if (!isEnvelopeOpened) {
+      const envelope = document.getElementById('envelope');
+      envelope.classList.add('open');
+      
+      // Add vibration feedback for mobile devices
+      if (navigator.vibrate) {
+        navigator.vibrate(100);
+      }
+      
+      // Show success message after animation completes
+      setTimeout(() => {
+        if (!document.querySelector('.success-message')) {
+          const message = document.createElement('div');
+          message.className = 'success-message';
+          message.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--matcha-primary), var(--matcha-secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            z-index: 1001;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: slideIn 0.5s ease-out;
+          `;
+          message.textContent = '💌 Card opened! Happy Birthday Tata! 🎉';
+          document.body.appendChild(message);
+          
+          setTimeout(() => {
+            message.remove();
+          }, 3000);
+        }
+      }, 1200);
+      
+      isEnvelopeOpened = true;
+    }
+  }
+
+  // Add some interactive sparkles
+  document.addEventListener('click', function(e) {
+    createSparkle(e.pageX, e.pageY);
+  });
+
+  function createSparkle(x, y) {
+    const sparkle = document.createElement('div');
+    sparkle.style.position = 'fixed';
+    sparkle.style.left = x + 'px';
+    sparkle.style.top = y + 'px';
+    sparkle.style.width = '10px';
+    sparkle.style.height = '10px';
+    sparkle.style.background = 'radial-gradient(circle, #ffd700, #ff6b35)';
+    sparkle.style.borderRadius = '50%';
+    sparkle.style.pointerEvents = 'none';
+    sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
+    sparkle.style.zIndex = '1000';
+    
+    document.body.appendChild(sparkle);
+    
+    setTimeout(() => {
+      sparkle.remove();
+    }, 1000);
+  }
+
+  // Add sparkle animation and slideIn animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes sparkleAnimation {
+      0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1) rotate(180deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes slideIn {
+      0% {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Prevent zoom on double tap for iOS */
+    * {
+      touch-action: manipulation;
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>

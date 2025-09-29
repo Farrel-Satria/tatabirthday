@@ -426,6 +426,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
+    /* PERBAIKAN: Card styling yang lebih baik */
     .card-inside {
       position: absolute;
       top: min(70px, 18vw);
@@ -443,6 +444,39 @@
         0 8px 25px rgba(0,0,0,0.2),
         0 0 0 1px rgba(0,0,0,0.05);
       border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* PERBAIKAN: Styling untuk elemen-elemen di dalam card */
+    .card-cat {
+      font-size: min(3rem, 10vw);
+      margin-bottom: min(0.5rem, 2vw);
+      animation: bounce 2s infinite;
+    }
+
+    .card-title {
+      font-size: min(1.2rem, 4.5vw);
+      font-weight: 700;
+      color: var(--matcha-primary);
+      margin-bottom: min(0.8rem, 3vw);
+      line-height: 1.3;
+    }
+
+    .card-message {
+      font-size: min(0.85rem, 3.2vw);
+      color: var(--matcha-primary);
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: min(1rem, 4vw);
+    }
+
+    .card-from {
+      font-size: min(1.5rem, 5vw);
+      margin-top: auto;
     }
 
     .envelope.open .envelope-flap-front {
@@ -475,22 +509,6 @@
           rgba(255,255,255,0.1) 4px
         );
       border-radius: 0 0 8px 8px;
-    }
-
-    .cat-photo {
-      width: 100%;
-      height: min(120px, 25vw);
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: min(1rem, 3vw);
-      border: 2px solid var(--matcha-light);
-    }
-
-    .card-message {
-      font-size: min(0.85rem, 3.2vw);
-      color: var(--matcha-primary);
-      font-weight: 500;
-      line-height: 1.4;
     }
 
     .open-btn {
@@ -557,6 +575,12 @@
     .cat-emoji {
       font-size: 1.5rem;
       margin-right: 0.5rem;
+    }
+
+    /* Animasi tambahan untuk card */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     /* Responsive */
@@ -759,6 +783,7 @@
       <div class="envelope-flap-front"></div>
       <div class="envelope-seal">🍃</div>
       
+      <!-- PERBAIKAN: Card yang sudah diperbaiki layoutnya -->
       <div class="card-inside">
         <div class="card-cat">🐱</div>
         <div class="card-title">Happy 17th Birthday<br>TataDadoow!</div>
@@ -793,7 +818,7 @@
 
     <div class="note-card">
       <div class="note-title"><span class="cat-emoji">🎂</span>Seventeen & Fabulous</div>
-      <div class="note-text">Happy sweet seventeen, Tata! Semoga makin dewasa tapi tetap playful seperti anak kucing. Jangan lupa makan cake yang enak dan jaga kesehatan ya! Love you! 🥰</div>
+      <div class="note-text">Happy sweet seventeen, Tata! Semoga makin dewasa tapi tetap playful seperti anak kucing. Jangan lupa makan cake yang enak dan jaga kesehatan ya! 🥰</div>
     </div>
 
     <div class="note-card">
